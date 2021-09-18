@@ -13,8 +13,8 @@ var schema = buildSchema(`
     }
 
     type Query {
-        validateAccountDetails(userAccountNumber: String): String
-      }
+        getAccountDetails(userAccountNumber: String): String
+    }
 
     type UserAccount {
         userAccountNumber: String
@@ -23,7 +23,7 @@ var schema = buildSchema(`
     }
 
     type Mutation {
-        validateAccountDetails(input: AccountValidationInput): String
+        validateAccountDetails(input: AccountValidationInput): UserAccount
     }
 `);
 
@@ -38,7 +38,9 @@ class UserAccount {
 var root = {
     validateAccountDetails: async ({input}) => {
         const result = await accountService.validateAccountDetails(input.userAccountNumber, input.userBankCode, input.userAccountName);
-        console.log(result.data.data);
+        const { data } = result.data;
+
+        return new UserAccount(data.account_number, input.userBankCode, data.account_name);
     }
 };
 

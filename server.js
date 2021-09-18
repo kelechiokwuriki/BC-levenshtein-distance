@@ -5,13 +5,14 @@ var accountService = require('./AccountService');
 
 var schema = buildSchema(`
     type Query {
-        validateAccountDetails(accountName: String, accountNumber: String): String
+        validateAccountDetails(userAccountNumber: String, userBankCode: String, userAccountName: String): String
     }
 `);
 
 var root = {
-    validateAccountDetails: ({accountName, accountNumber}) => {
-        return accountService.validateAccountDetails(accountName, accountNumber) ;
+    validateAccountDetails: ({userAccountNumber, userBankCode, userAccountName}) => {
+        accountService.validateAccountDetails(userAccountNumber, userBankCode, userAccountName);
+        // console.log(result)
     }
 };
 

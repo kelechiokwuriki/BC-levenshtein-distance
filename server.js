@@ -6,15 +6,39 @@ var accountService = require('./AccountService');
 
 
 var schema = buildSchema(`
+    input AccountValidationInput {
+        userAccountNumber: String
+        userBankCode: String
+        userAccountName: String
+    }
+
     type Query {
-        validateAccountDetails(userAccountNumber: String, userBankCode: String, userAccountName: String): String
+        validateAccountDetails(userAccountNumber: String): String
+      }
+
+    type UserAccount {
+        userAccountNumber: String
+        userBankCode: String
+        userAccountName: String
+    }
+
+    type Mutation {
+        validateAccountDetails(input: AccountValidationInput): String
     }
 `);
 
+class UserAccount {
+    constructor(userAccountNumber, userBankCode, userAccountName) {
+      this.userAccountNumber = userAccountNumber;
+      this.userBankCode = userBankCode;
+      this.userAccountName = userAccountName;
+    }
+}
+
 var root = {
-    validateAccountDetails: ({userAccountNumber, userBankCode, userAccountName}) => {
-        accountService.validateAccountDetails(userAccountNumber, userBankCode, userAccountName);
-        // console.log(result)
+    validateAccountDetails: async ({input}) => {
+        const result = await accountService.validateAccountDetails(input.userAccountNumber, input.userBankCode, input.userAccountName);
+        console.log(result.data.data);
     }
 };
 

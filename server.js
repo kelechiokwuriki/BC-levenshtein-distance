@@ -3,6 +3,7 @@ var express = require('express');
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 var accountService = require('./AccountService');
+const utility = require('./Utility');
 
 
 var schema = buildSchema(`
@@ -35,16 +36,28 @@ class UserAccount {
     }
 }
 
+// FAKE DATABASE FOR THIS TEST
+var fakeUserDatabase = {
+    '2058559716': { verified: false }
+};
+
 var root = {
     validateAccountDetails: async ({input}) => {
         const result = await accountService.validateAccountDetails(input.userAccountNumber, input.userBankCode, input.userAccountName);
         const { data } = result.data;
+
+        let accountNameDistanceCheck = utility.levenshteinDistanceCalculator(result.data.data.account_name, input.userAccountName);
+
+        if (data.account_name === input.userAccountName || accountNameDistanceCheck <= 2) {
+            fakeUserDatabase[input.userAccountNumber].verified = true;
+        } 
 
         return new UserAccount(data.account_number, input.userBankCode, data.account_name);
     }
 };
 
 var app = express();
+
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: root,

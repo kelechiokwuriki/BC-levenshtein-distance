@@ -4,6 +4,7 @@ var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 var accountService = require('./AccountService');
 const utility = require('./Utility');
+const levenshteinDistanceAllowed = process.env.LEVENSHTEINDISTANCEALLOWED;
 
 
 var schema = buildSchema(`
@@ -48,7 +49,7 @@ var root = {
 
         let accountNameDistanceCheck = utility.levenshteinDistanceCalculator(result.data.data.account_name, input.userAccountName);
 
-        if (data.account_name === input.userAccountName || accountNameDistanceCheck <= 2) {
+        if (data.account_name === input.userAccountName || accountNameDistanceCheck <= levenshteinDistanceAllowed) {
             fakeUserDatabase[input.userAccountNumber].verified = true;
         } 
 

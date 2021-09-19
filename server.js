@@ -15,7 +15,7 @@ var schema = buildSchema(`
     }
 
     type Query {
-        getAccountDetails(userAccountNumber: String): String
+        getAccountDetails(userAccountNumber: String): UserAccount
     }
 
     type UserAccount {

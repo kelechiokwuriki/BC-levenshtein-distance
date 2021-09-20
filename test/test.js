@@ -2,11 +2,6 @@ require('dotenv').config()
 const expect = require('chai').expect;
 const nock = require('nock');
 const AccountService = require('../AccountService');
-const paystackApiKey = process.env.PAYSTACK_API_KEY;
-
-const config = {
-    headers: { Authorization: `Bearer ${paystackApiKey}` }
-};
 
 const response = {
     status: true,

@@ -7,7 +7,7 @@ module.exports = {
         const config = {
             headers: { Authorization: `Bearer ${paystackApiKey}` }
         };
-
-        return axios.get(`${paystackApiUrl}/bank/resolve?account_number=${accountNumber}&bank_code=${bankCode}`, config);
+        
+        return axios.get(`${paystackApiUrl}/bank/resolve?account_number=${accountNumber}&bank_code=${bankCode}`, config);        
     }
 }

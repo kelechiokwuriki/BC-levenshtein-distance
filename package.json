@@ -4,7 +4,7 @@
   "description": "buycoins test",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha"
   },
   "author": "kelechi okwuriki",
   "license": "ISC",
@@ -15,5 +15,10 @@
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.3",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.1",
+    "nock": "^13.1.3"
   }
 }
